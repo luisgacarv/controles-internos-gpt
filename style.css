@@ -24,21 +24,19 @@ body {
     min-height: 100vh;
     margin: 0;
     color: var(--text-color);
-    overflow: hidden; /* Para garantir que o dashboard ocupe a tela sem scroll */
+    overflow: hidden;
 }
 
-/* Layout de Dashboard */
 .dashboard-layout {
     display: flex;
     width: 100vw;
     height: 100vh;
     background-color: var(--secondary-bg);
     border-radius: 10px;
-    overflow: hidden; /* Para lidar com cantos arredondados */
+    overflow: hidden;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
-/* Sidebar */
 .sidebar {
     width: 250px;
     background-color: var(--primary-bg);
@@ -56,7 +54,7 @@ body {
 
 .sidebar-header h3 {
     font-family: var(--font-secondary);
-    color: var(--accent-color-1); /* Cor de destaque para o nome da IA */
+    color: var(--accent-color-1);
     font-size: 1.8rem;
     margin: 0;
     text-align: center;
@@ -89,11 +87,11 @@ body {
     background-color: var(--button-hover-bg);
     color: var(--text-light);
     border-left: 4px solid var(--accent-color-1);
-    padding-left: 16px; /* Ajusta o padding para o border-left */
+    padding-left: 16px;
 }
 
 .sidebar-footer {
-    margin-top: auto; /* Empurra para o final da sidebar */
+    margin-top: auto;
     padding: 20px;
     border-top: 1px solid var(--border-color);
     text-align: center;
@@ -101,7 +99,6 @@ body {
     color: #6a737d;
 }
 
-/* Conteúdo Principal (Chat) */
 .main-content {
     flex-grow: 1;
     display: flex;
@@ -110,12 +107,12 @@ body {
 }
 
 .chat-container {
-    flex-grow: 1; /* Ocupa todo o espaço disponível no main-content */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    border-radius: 0; /* Removido para o layout de dashboard */
-    box-shadow: none; /* Removido */
-    background-color: transparent; /* Transparente, usa o fundo do main-content */
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
 }
 
 .chat-header {
@@ -144,15 +141,14 @@ body {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #6a737d; /* Offline */
+    background-color: #6a737d;
     transition: background-color 0.3s ease;
 }
 
 .status-indicator.online {
-    background-color: var(--accent-color-2); /* Verde online */
+    background-color: var(--accent-color-2);
     box-shadow: 0 0 8px var(--accent-color-2);
 }
-
 
 .chat-box {
     flex-grow: 1;
@@ -161,6 +157,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    /* Estilo da barra de rolagem para WebKit (Chrome, Safari) */
     scrollbar-width: thin;
     scrollbar-color: var(--accent-color-1) transparent;
 }
@@ -168,10 +165,12 @@ body {
 .chat-box::-webkit-scrollbar {
     width: 8px;
 }
+
 .chat-box::-webkit-scrollbar-thumb {
     background-color: var(--accent-color-1);
     border-radius: 4px;
 }
+
 .chat-box::-webkit-scrollbar-track {
     background-color: transparent;
 }
@@ -179,32 +178,32 @@ body {
 .message {
     padding: 12px 18px;
     border-radius: 12px;
-    max-width: 70%; /* Levemente menor para mais ar */
+    max-width: 70%;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     animation: fadeIn 0.4s ease-in-out;
     position: relative;
-    word-wrap: break-word; /* Para quebrar linhas longas */
+    word-wrap: break-word;
 }
 
 .user-message {
-    background-color: var(--accent-color-1); /* Azul de destaque */
+    background-color: var(--accent-color-1);
     color: var(--text-light);
     align-self: flex-end;
     border-bottom-right-radius: 4px;
 }
 
 .bot-message {
-    background-color: var(--button-bg); /* Fundo de botão para balão do bot */
+    background-color: var(--button-bg);
     color: var(--text-color);
     align-self: flex-start;
     border-bottom-left-radius: 4px;
 }
 
-/* Estilização para conteúdo Markdown dentro das mensagens */
 .bot-message p, .bot-message ul, .bot-message ol, .bot-message pre {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
 .bot-message pre {
     background-color: var(--primary-bg);
     border-radius: 5px;
@@ -214,6 +213,7 @@ body {
     font-size: 0.9em;
     border: 1px solid var(--border-color);
 }
+
 .bot-message code {
     background-color: var(--primary-bg);
     padding: 2px 4px;
@@ -222,10 +222,6 @@ body {
     font-size: 0.9em;
 }
 
-
-.fade-in {
-    animation: fadeIn 0.4s ease-in-out;
-}
 
 @keyframes fadeIn {
     from {
@@ -243,7 +239,7 @@ body {
     padding: 20px 25px;
     border-top: 1px solid var(--border-color);
     gap: 10px;
-    background-color: var(--primary-bg); /* Fundo do input na cor principal */
+    background-color: var(--primary-bg);
     align-items: center;
 }
 
@@ -269,7 +265,7 @@ body {
 }
 
 #send-btn, #attach-btn {
-    width: 45px; /* Tamanho fixo para botões de ícone */
+    width: 45px;
     height: 45px;
     display: flex;
     justify-content: center;
@@ -277,14 +273,14 @@ body {
     background-color: var(--accent-color-1);
     color: white;
     border: none;
-    border-radius: 50%; /* Botões redondos */
+    border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 1.2rem;
 }
 
 #send-btn:hover, #attach-btn:hover {
-    background-color: #4088e8; /* Tom mais escuro no hover */
+    background-color: #4088e8;
     transform: translateY(-2px);
 }
 
@@ -293,10 +289,9 @@ body {
 }
 
 
-/* Media Queries para Responsividade */
 @media (max-width: 768px) {
     .dashboard-layout {
-        flex-direction: column; /* Sidebar em cima, conteúdo embaixo */
+        flex-direction: column;
         height: 100%;
         width: 100%;
         border-radius: 0;
@@ -324,9 +319,9 @@ body {
     .sidebar-nav li a {
         padding: 8px 10px;
         font-size: 0.9rem;
-        flex-direction: column; /* Ícone em cima do texto */
-        border-left: none; /* Remove a borda esquerda */
-        border-bottom: 2px solid transparent; /* Nova borda inferior para ativo */
+        flex-direction: column;
+        border-left: none;
+        border-bottom: 2px solid transparent;
         padding-left: 10px;
     }
     .sidebar-nav li a i {
@@ -337,11 +332,11 @@ body {
     .sidebar-nav li a:hover,
     .sidebar-nav li a.active {
         border-left: none;
-        border-bottom: 2px solid var(--accent-color-1); /* Nova borda inferior para ativo */
+        border-bottom: 2px solid var(--accent-color-1);
         padding-left: 10px;
     }
     .sidebar-footer {
-        display: none; /* Esconder rodapé em telas pequenas */
+        display: none;
     }
     .main-content {
         border-radius: 0;
