@@ -509,4 +509,34 @@ body {
     .saved-chats-list {
         display: none;
     }
+    /* Estilo para a página Sobre */
+.about-page .main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-page .content-box {
+    max-width: 800px;
+    padding: 40px;
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.about-page .content-box h1 {
+    font-family: var(--font-secondary);
+    color: var(--accent-color-1);
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.about-page .content-box p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
 }
