@@ -429,6 +429,48 @@ body {
     background-color: var(--button-hover-bg);
 }
 
+/* --- Estilos para a página Sobre (Aboud Page) --- */
+
+.about-page .main-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+    height: 100%;
+}
+
+.about-page .content-box {
+    max-width: 900px;
+    padding: 50px;
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.8s ease-in-out;
+    flex-grow: 1;
+}
+
+.about-page .content-box h1 {
+    font-family: var(--font-secondary);
+    color: var(--accent-color-1);
+    font-size: 3rem;
+    margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.about-page .content-box p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Media Queries para Responsividade */
 @media (max-width: 768px) {
     .dashboard-layout {
         flex-direction: column;
