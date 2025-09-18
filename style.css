@@ -24,19 +24,20 @@ body {
     min-height: 100vh;
     margin: 0;
     color: var(--text-color);
-    overflow: hidden;
+    /* Remove a regra overflow: hidden aqui */
 }
 
+/* Layout de Dashboard */
 .dashboard-layout {
     display: flex;
     width: 100vw;
     height: 100vh;
     background-color: var(--secondary-bg);
-    border-radius: 10px;
-    overflow: hidden;
+    /* Remove a regra overflow: hidden aqui */
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
+/* Sidebar */
 .sidebar {
     width: 250px;
     background-color: var(--primary-bg);
@@ -99,20 +100,21 @@ body {
     color: #6a737d;
 }
 
+/* Conteúdo Principal (Chat) */
 .main-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     background-color: var(--secondary-bg);
+    height: 100%; /* Adicionado */
 }
 
 .chat-container {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    border-radius: 0;
-    box-shadow: none;
     background-color: transparent;
+    height: 100%; /* Adicionado */
 }
 
 .chat-header {
@@ -153,7 +155,7 @@ body {
 .chat-box {
     flex-grow: 1;
     padding: 25px;
-    overflow-y: auto;
+    overflow-y: auto; /* Mantido */
     display: flex;
     flex-direction: column;
     gap: 15px;
