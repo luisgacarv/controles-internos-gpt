@@ -4,16 +4,17 @@ const chatBox = document.getElementById('chat-box');
 const attachBtn = document.getElementById('attach-btn');
 const fileInput = document.getElementById('file-input');
 
+// A variável que vai guardar o histórico da conversa
+let chatHistory = [];
+
 function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', `${sender}-message`);
     
-    // Converte o texto Markdown em HTML
     messageDiv.innerHTML = marked.parse(text); 
     
     chatBox.appendChild(messageDiv);
     
-    // Rola para a última mensagem depois de uma pequena pausa
     setTimeout(() => {
         chatBox.scrollTop = chatBox.scrollHeight;
     }, 0);
@@ -22,10 +23,13 @@ function addMessage(text, sender) {
 }
 
 async function handleSendMessage() {
-    const message = userInput.value.trim();
-    if (message === '') return;
+    const userMessage = userInput.value.trim();
+    if (userMessage === '') return;
 
-    addMessage(message, 'user');
+    // Adiciona a mensagem do usuário no histórico e na tela
+    addMessage(userMessage, 'user');
+    chatHistory.push({ role: 'user', content: userMessage });
+
     userInput.value = '';
 
     const typingMessage = addMessage('Aguarde, **Truco!** está processando sua solicitação...', 'bot');
@@ -36,7 +40,8 @@ async function handleSendMessage() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ prompt: message })
+            // Envia o histórico completo da conversa
+            body: JSON.stringify({ messages: chatHistory })
         });
 
         if (!response.ok) {
@@ -48,7 +53,10 @@ async function handleSendMessage() {
         
         if (data.text && data.text.length > 0) {
             typingMessage.remove();
+            
+            // Adiciona a resposta da IA no histórico e na tela
             addMessage(data.text, 'bot');
+            chatHistory.push({ role: 'assistant', content: data.text });
         } else {
             typingMessage.remove();
             addMessage('**Truco!** não retornou uma resposta. Por favor, tente novamente.', 'bot');
@@ -76,12 +84,17 @@ attachBtn.addEventListener('click', () => {
 fileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (file) {
-        addMessage(`Arquivo anexado: ${file.name} (Funcionalidade de processamento não implementada ainda)`, 'user');
+        const fileMessage = `Arquivo anexado: ${file.name} (Funcionalidade de processamento não implementada ainda)`;
+        addMessage(fileMessage, 'user');
+        chatHistory.push({ role: 'user', content: fileMessage });
     }
     fileInput.value = '';
 });
 
-// Mensagem inicial ao carregar a página
+
+// Mensagem inicial ao carregar a página e adicioná-la ao histórico
 document.addEventListener('DOMContentLoaded', () => {
-    addMessage('Olá! Sou **Truco!**, seu assistente de controles internos. Como posso ajudar?', 'bot');
+    const welcomeMessage = 'Olá! Sou **Truco!**, seu assistente de controles internos. Como posso ajudar?';
+    addMessage(welcomeMessage, 'bot');
+    chatHistory.push({ role: 'assistant', content: welcomeMessage });
 });
