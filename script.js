@@ -8,6 +8,7 @@ function addMessage(text, sender) {
     messageDiv.textContent = text;
     chatBox.appendChild(messageDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
+    return messageDiv; // Retorna o elemento da mensagem
 }
 
 async function handleSendMessage() {
@@ -35,9 +36,14 @@ async function handleSendMessage() {
 
         const data = await response.json();
 
-        typingMessage.remove();
-
-        addMessage(data.text, 'bot');
+        // Verifica se a resposta contém texto válido
+        if (data.text && data.text.length > 0) {
+            typingMessage.remove();
+            addMessage(data.text, 'bot');
+        } else {
+            typingMessage.remove();
+            addMessage('A IA não retornou uma resposta. Por favor, tente novamente.', 'bot');
+        }
     } catch (error) {
         console.error("Erro:", error);
         typingMessage.remove();
