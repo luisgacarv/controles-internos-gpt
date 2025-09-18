@@ -20,7 +20,7 @@ async function handleSendMessage() {
     const typingMessage = addMessage('Aguarde, estou processando sua solicitação...', 'bot');
 
     try {
-        const response = await fetch('/api/chatgpt', {
+        const response = await fetch('/api/groq', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
