@@ -33,15 +33,12 @@ function loadChats() {
     if (saved) {
         allChats = JSON.parse(saved);
         if (allChats.length > 0) {
-            // Se houver chats salvos, carrega o primeiro
             activeChatId = allChats[0].id;
             loadChat(activeChatId);
         } else {
-            // Se a lista estiver vazia, cria um novo chat
             newChat();
         }
     } else {
-        // Se não houver nada, cria um novo chat
         newChat();
     }
 }
@@ -72,27 +69,27 @@ function switchChat(chatId) {
     const chat = allChats.find(c => c.id === chatId);
     if (chat) {
         activeChatId = chatId;
-        chatBox.innerHTML = ''; // Limpa o chat atual
+        chatBox.innerHTML = '';
         chat.history.forEach(msg => {
             addMessage(msg.content, msg.role);
         });
         document.querySelectorAll('.chat-item-active').forEach(el => el.classList.remove('chat-item-active'));
         document.querySelector(`[data-chat-id="${chatId}"]`).classList.add('chat-item-active');
+        saveChats();
     }
 }
 
 function newChat() {
     const newChat = {
         id: Date.now().toString(),
-        title: 'Novo Chat',
+        title: 'Novo Chat', // Título temporário
         history: []
     };
-    allChats.unshift(newChat); // Adiciona no início da lista
+    allChats.unshift(newChat);
     activeChatId = newChat.id;
-    chatBox.innerHTML = ''; // Limpa o chat atual
+    chatBox.innerHTML = '';
     saveChats();
     
-    // Mensagem de boas-vindas para o novo chat
     const welcomeMessage = 'Olá! Sou **Truco!**, seu assistente de controles internos. Como posso ajudar?';
     addMessage(welcomeMessage, 'bot');
     newChat.history.push({ role: 'assistant', content: welcomeMessage });
@@ -106,15 +103,16 @@ async function handleSendMessage() {
     const chat = allChats.find(c => c.id === activeChatId);
     if (!chat) return;
 
-    // Se o chat for novo, define um título
-    if (chat.history.length === 0) {
-        chat.title = userMessage.substring(0, 20) + '...';
+    // Se o chat for novo, define um título baseado na primeira mensagem
+    if (chat.history.length <= 1) { // Verifica se é a primeira ou segunda mensagem (incluindo a de boas-vindas)
+        const firstMessage = userMessage.substring(0, 30);
+        chat.title = firstMessage + '...';
     }
 
     // Adiciona a mensagem do usuário no histórico e na tela
     addMessage(userMessage, 'user');
     chat.history.push({ role: 'user', content: userMessage });
-    saveChats();
+    saveChats(); // Salva o chat com o novo título
 
     userInput.value = '';
 
