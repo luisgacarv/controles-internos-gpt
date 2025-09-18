@@ -5,10 +5,13 @@ const chatBox = document.getElementById('chat-box');
 function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', `${sender}-message`);
-    messageDiv.textContent = text;
+
+    // Converte o texto Markdown em HTML e insere no elemento
+    messageDiv.innerHTML = marked.parse(text); 
+
     chatBox.appendChild(messageDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
-    return messageDiv; // Retorna o elemento da mensagem
+    return messageDiv;
 }
 
 async function handleSendMessage() {
@@ -36,7 +39,6 @@ async function handleSendMessage() {
 
         const data = await response.json();
 
-        // Verifica se a resposta contém texto válido
         if (data.text && data.text.length > 0) {
             typingMessage.remove();
             addMessage(data.text, 'bot');
