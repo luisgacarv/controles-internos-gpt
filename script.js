@@ -87,10 +87,7 @@ function renderChatList() {
     savedChatsList.appendChild(ul);
 }
 
-// Alterna a visibilidade do menu de contexto
 function toggleChatContextMenu(event, chatId) {
-    console.log("Tentando abrir o menu de contexto para o chat:", chatId); // Linha de diagnóstico
-    
     document.querySelectorAll('.chat-context-menu').forEach(menu => menu.remove());
 
     const listItem = event.currentTarget.closest('li');
@@ -167,4 +164,89 @@ function removeChat(chatIdToRemove) {
 
 async function handleSendMessage() {
     const userMessage = userInput.value.trim();
-    if (userMessage
+    if (userMessage === '') return;
+
+    const chat = allChats.find(c => c.id === activeChatId);
+    if (!chat) return;
+
+    if (chat.history.length === 1 && chat.history[0].role === 'assistant' && chat.history[0].content.includes('Olá! Sou **Truco!**')) {
+        const firstMessage = userMessage.substring(0, 30);
+        chat.title = firstMessage + (userMessage.length > 30 ? '...' : '');
+    }
+
+    addMessage(userMessage, 'user');
+    chat.history.push({ role: 'user', content: userMessage });
+    saveChats();
+
+    userInput.value = '';
+
+    const typingMessage = addMessage('Aguarde, **Truco!** está processando sua solicitação...', 'bot');
+
+    try {
+        const response = await fetch('/api/groq', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ messages: chat.history })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao obter resposta da IA.');
+        }
+
+        const data = await response.json();
+        
+        if (data.text && data.text.length > 0) {
+            typingMessage.remove();
+            
+            addMessage(data.text, 'bot');
+            chat.history.push({ role: 'assistant', content: data.text });
+            saveChats();
+        } else {
+            typingMessage.remove();
+            addMessage('**Truco!** não retornou uma resposta. Por favor, tente novamente.', 'bot');
+        }
+    } catch (error) {
+        console.error("Erro:", error);
+        typingMessage.remove();
+        addMessage(`Ocorreu um erro: ${error.message}`, 'bot');
+    }
+}
+
+// Event Listeners
+sendBtn.addEventListener('click', handleSendMessage);
+userInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        handleSendMessage();
+    }
+});
+attachBtn.addEventListener('click', () => {
+    fileInput.click();
+});
+fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const fileMessage = `Arquivo anexado: ${file.name} (Funcionalidade de processamento não implementada ainda)`;
+        addMessage(fileMessage, 'user');
+        const chat = allChats.find(c => c.id === activeChatId);
+        chat.history.push({ role: 'user', content: fileMessage });
+        saveChats();
+    }
+    fileInput.value = '';
+});
+newChatBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    newChat();
+});
+
+document.addEventListener('DOMContentLoaded', loadChats);
+
+document.addEventListener('click', (e) => {
+    document.querySelectorAll('.chat-context-menu').forEach(menu => {
+        if (!menu.contains(e.target) && !e.target.closest('.chat-options-btn')) {
+            menu.remove();
+        }
+    });
+});
