@@ -1,7 +1,8 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+const groq = new OpenAI({
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: "https://api.groq.com/openai/v1", // Esta linha é nova
 });
 
 export default async (req, res) => {
@@ -12,8 +13,8 @@ export default async (req, res) => {
   const { prompt } = req.body;
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+    const completion = await groq.chat.completions.create({
+      model: 'llama2-70b-4096', // Exemplo de modelo Groq. Verifique os modelos disponíveis na documentação.
       messages: [{ role: 'user', content: prompt }],
     });
 
@@ -21,7 +22,7 @@ export default async (req, res) => {
 
     res.status(200).json({ text });
   } catch (error) {
-    console.error('Erro na API do OpenAI:', error);
+    console.error('Erro na API da Groq:', error);
     res.status(500).json({
       message: 'Ocorreu um erro ao conectar com a IA. Por favor, tente novamente mais tarde.',
       error: error.message,
