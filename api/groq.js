@@ -14,7 +14,7 @@ export default async (req, res) => {
 
   try {
     const completion = await groq.chat.completions.create({
-      model: 'llama2-70b-4096', // Modelo conhecido por funcionar bem na Groq
+      model: 'llama-3.1-8b-instant', // Modelo alterado para um da sua lista
       messages: [{ role: 'user', content: prompt }],
     });
 
