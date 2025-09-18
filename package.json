@@ -1,0 +1,12 @@
+{
+  "name": "assistente-gpt-controles",
+  "version": "1.0.0",
+  "description": "Assistente de IA para a equipe de controles internos.",
+  "main": "index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "openai": "^4.20.1"
+  }
+}
