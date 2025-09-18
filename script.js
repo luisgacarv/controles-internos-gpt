@@ -1,19 +1,24 @@
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 const chatBox = document.getElementById('chat-box');
-const attachBtn = document.getElementById('attach-btn'); // Novo botão
-const fileInput = document.getElementById('file-input'); // Novo input de arquivo
+const attachBtn = document.getElementById('attach-btn');
+const fileInput = document.getElementById('file-input');
 
 function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', `${sender}-message`);
     
-    // Converte o texto Markdown em HTML e insere no elemento
+    // Converte o texto Markdown em HTML
     messageDiv.innerHTML = marked.parse(text); 
     
     chatBox.appendChild(messageDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
-    return messageDiv; // Retorna o elemento da mensagem
+    
+    // Rola para a última mensagem depois de uma pequena pausa
+    setTimeout(() => {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 0);
+    
+    return messageDiv;
 }
 
 async function handleSendMessage() {
@@ -64,22 +69,17 @@ userInput.addEventListener('keydown', (event) => {
     }
 });
 
-// Lógica para o botão de anexar arquivo
 attachBtn.addEventListener('click', () => {
-    fileInput.click(); // Abre o seletor de arquivos
+    fileInput.click();
 });
 
 fileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (file) {
         addMessage(`Arquivo anexado: ${file.name} (Funcionalidade de processamento não implementada ainda)`, 'user');
-        // Aqui você adicionaria a lógica para enviar o arquivo ao backend
-        // ou processá-lo de alguma forma.
-        // Exemplo: uploadFile(file);
     }
-    fileInput.value = ''; // Limpa o input para permitir anexar o mesmo arquivo novamente
+    fileInput.value = '';
 });
-
 
 // Mensagem inicial ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
