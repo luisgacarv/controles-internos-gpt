@@ -87,10 +87,11 @@ function renderChatList() {
     savedChatsList.appendChild(ul);
 }
 
+// Alterna a visibilidade do menu de contexto
 function toggleChatContextMenu(event, chatId) {
     document.querySelectorAll('.chat-context-menu').forEach(menu => menu.remove());
 
-    const listItem = event.currentTarget.closest('li');
+    const parentLink = event.currentTarget.closest('a'); // Pega o link pai (o chat-item)
     const menu = document.createElement('div');
     menu.classList.add('chat-context-menu');
     menu.innerHTML = `
@@ -105,8 +106,9 @@ function toggleChatContextMenu(event, chatId) {
         removeChat(chatId);
         menu.remove();
     });
-
-    listItem.appendChild(menu);
+    
+    // Adiciona o menu ao link do chat, não ao item da lista
+    parentLink.appendChild(menu);
     menu.style.display = 'block';
 
     document.addEventListener('click', function closeMenu(e) {
@@ -215,7 +217,6 @@ async function handleSendMessage() {
     }
 }
 
-// Event Listeners
 sendBtn.addEventListener('click', handleSendMessage);
 userInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
