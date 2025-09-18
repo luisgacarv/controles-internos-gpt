@@ -14,7 +14,7 @@ export default async (req, res) => {
 
   try {
     const completion = await groq.chat.completions.create({
-      model: 'meta-lhama/lhama-4-maverick-17b-128e-instruct', // Modelo alterado para um da sua lista
+      model: 'meta-llama/llama-4-maverick-17b-128e-instruct', // Modelo alterado para um da sua lista
       messages: [{ role: 'user', content: prompt }],
     });
 
