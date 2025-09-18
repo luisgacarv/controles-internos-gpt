@@ -368,4 +368,69 @@ body {
         height: 40px;
         font-size: 1rem;
     }
+    /* Estilo para a lista de chats salvos */
+.saved-chats-list {
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 20px;
+}
+
+.saved-chats-list h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #aeb8c4;
+}
+
+.saved-chats-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.saved-chats-list li {
+    margin-bottom: 8px;
+}
+
+.saved-chats-list li a {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    border-radius: 6px;
+    background-color: transparent;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.saved-chats-list li a:hover {
+    background-color: var(--button-bg);
+}
+
+.saved-chats-list li a.chat-item-active {
+    background-color: var(--button-bg);
+    border-left: 4px solid var(--accent-color-1);
+    padding-left: 11px;
+    color: var(--text-light);
+}
+
+.saved-chats-list li a i {
+    margin-right: 10px;
+}
+
+#new-chat-btn {
+    display: block;
+    width: calc(100% - 40px);
+    margin: 10px 20px 20px;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+    color: var(--accent-color-1);
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+#new-chat-btn:hover {
+    background-color: rgba(88, 166, 255, 0.1);
+    transform: translateY(-2px);
+}
 }
