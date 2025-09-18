@@ -10,12 +10,14 @@ export default async (req, res) => {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { prompt } = req.body;
+  // Recebe o array de mensagens, não apenas um prompt
+  const { messages } = req.body;
 
   try {
     const completion = await groq.chat.completions.create({
-      model: 'meta-llama/llama-4-maverick-17b-128e-instruct', // Modelo alterado para um da sua lista
-      messages: [{ role: 'user', content: prompt }],
+      model: 'meta-llama/llama-4-maverick-17b-128e-instruct',
+      // Passa o histórico de mensagens completo
+      messages: messages,
     });
 
     const text = completion.choices[0].message.content;
