@@ -10,28 +10,20 @@ const attachBtn = document.getElementById('attach-btn');
 const fileInput = document.getElementById('file-input');
 const newChatBtn = document.getElementById('new-chat-btn');
 const savedChatsList = document.getElementById('saved-chats-list');
-const tokenCounter = document.getElementById('token-counter');
 
 let allChats = [];
 let activeChatId = null;
-let totalTokens = 0; // Nova variável para o contador
-
-function updateTokenCounter(tokens) {
-    if (tokenCounter) {
-        tokenCounter.innerHTML = `<i class="fas fa-microchip"></i> <span>Tokens: ${tokens}</span>`;
-    }
-}
 
 function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', `${sender}-message`);
     messageDiv.innerHTML = marked.parse(text); 
     chatBox.appendChild(messageDiv);
-
+    
     setTimeout(() => {
         chatBox.scrollTop = chatBox.scrollHeight;
     }, 0);
-
+    
     return messageDiv;
 }
 
@@ -88,7 +80,7 @@ function renderChatList() {
         if (chat.id === activeChatId) {
             a.classList.add('chat-item-active');
         }
-
+        
         a.addEventListener('click', (e) => {
             e.preventDefault();
             switchChat(chat.id);
@@ -169,11 +161,6 @@ function switchChat(chatId) {
         });
         document.querySelectorAll('.chat-item-active').forEach(el => el.classList.remove('chat-item-active'));
         document.querySelector(`[data-chat-id="${chatId}"]`).classList.add('chat-item-active');
-
-        // Atualiza o contador de tokens ao trocar de chat
-        totalTokens = chat.history.reduce((sum, msg) => sum + (msg.tokenUsage ? msg.tokenUsage.total_tokens : 0), 0);
-        updateTokenCounter(totalTokens);
-
         saveChats();
     }
 }
@@ -187,10 +174,8 @@ function newChat() {
     allChats.unshift(newChat);
     activeChatId = newChat.id;
     chatBox.innerHTML = '';
-    totalTokens = 0; // Reseta o contador para o novo chat
-    updateTokenCounter(totalTokens);
     saveChats();
-
+    
     const welcomeMessage = 'Olá! Sou **Truco!**, seu assistente de controles internos. Como posso ajudar?';
     addMessage(welcomeMessage, 'bot');
     newChat.history.push({ role: 'assistant', content: welcomeMessage });
@@ -245,28 +230,16 @@ async function handleSendMessage() {
         }
 
         const data = await response.json();
-
+        
         if (data.text && data.text.length > 0) {
             typingMessage.remove();
-
-            // Adiciona a resposta da IA no histórico
-            const botMessage = {
-                role: 'assistant',
-                content: data.text,
-                tokenUsage: data.tokenUsage
-            };
-
-            addMessage(botMessage.content, botMessage.role);
-            chat.history.push(botMessage);
-
-            // Atualiza o contador de tokens
-            totalTokens += data.tokenUsage.total_tokens;
-            updateTokenCounter(totalTokens);
-
+            
+            addMessage(data.text, 'bot');
+            chat.history.push({ role: 'assistant', content: data.text });
             saveChats();
         } else {
-            typingMessage.remove();
-            addMessage('**Truco!** não retornou uma resposta. Por favor, tente novamente.', 'bot');
+    typingMessage.remove();
+    addMessage('**Truco!** não retornou uma resposta. Por favor, tente novamente.', 'bot');
         }
     } catch (error) {
         console.error("Erro:", error);
