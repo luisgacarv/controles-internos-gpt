@@ -551,4 +551,31 @@ body {
     .saved-chats-list {
         display: none;
     }
+    /* Estilo do Contador de Tokens */
+.chat-header {
+    position: relative; /* Adicionei isso para posicionar o contador */
+}
+
+.token-counter {
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+    background-color: var(--secondary-bg);
+    color: var(--text-color);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-family: var(--font-primary);
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.token-counter i {
+    color: var(--accent-color-1);
+    
+  }
 }
