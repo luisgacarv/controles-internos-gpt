@@ -1,3 +1,8 @@
+// Verifica se o usuário está logado antes de carregar o restante do script
+if (localStorage.getItem('isLoggedIn') !== 'true') {
+    window.location.href = 'login.html';
+}
+
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 const chatBox = document.getElementById('chat-box');
@@ -125,7 +130,6 @@ function toggleChatContextMenu(event, chatId) {
     });
 }
 
-// Nova função para exportar o chat
 function exportChat(chatId) {
     const chat = allChats.find(c => c.id === chatId);
     if (!chat) return;
@@ -234,8 +238,8 @@ async function handleSendMessage() {
             chat.history.push({ role: 'assistant', content: data.text });
             saveChats();
         } else {
-            typingMessage.remove();
-            addMessage('**Truco!** não retornou uma resposta. Por favor, tente novamente.', 'bot');
+    typingMessage.remove();
+    addMessage('**Truco!** não retornou uma resposta. Por favor, tente novamente.', 'bot');
         }
     } catch (error) {
         console.error("Erro:", error);
