@@ -10,7 +10,9 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     const validPassword = 'senha123';
 
     if (usernameInput === validUsername && passwordInput === validPassword) {
-        // Redireciona para a página principal se a senha estiver correta
+        // Salva a flag de login no localStorage
+        localStorage.setItem('isLoggedIn', 'true');
+        // Redireciona para a página principal
         window.location.href = 'index.html';
     } else {
         errorMessage.textContent = 'Usuário ou senha incorretos.';
