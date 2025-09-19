@@ -87,18 +87,25 @@ function renderChatList() {
     savedChatsList.appendChild(ul);
 }
 
-// Alterna a visibilidade do menu de contexto
 function toggleChatContextMenu(event, chatId) {
     document.querySelectorAll('.chat-context-menu').forEach(menu => menu.remove());
 
-    const parentLink = event.currentTarget.closest('a'); // Pega o link pai (o chat-item)
+    const parentLink = event.currentTarget.closest('a');
     const menu = document.createElement('div');
     menu.classList.add('chat-context-menu');
     menu.innerHTML = `
         <ul>
+            <li><a href="#" data-action="export" data-chat-id="${chatId}"><i class="fas fa-download"></i> Exportar</a></li>
             <li><a href="#" data-action="delete" data-chat-id="${chatId}"><i class="fas fa-trash-alt"></i> Excluir</a></li>
         </ul>
     `;
+
+    menu.querySelector('[data-action="export"]').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        exportChat(chatId);
+        menu.remove();
+    });
 
     menu.querySelector('[data-action="delete"]').addEventListener('click', (e) => {
         e.preventDefault();
@@ -106,8 +113,7 @@ function toggleChatContextMenu(event, chatId) {
         removeChat(chatId);
         menu.remove();
     });
-    
-    // Adiciona o menu ao link do chat, não ao item da lista
+
     parentLink.appendChild(menu);
     menu.style.display = 'block';
 
@@ -117,6 +123,27 @@ function toggleChatContextMenu(event, chatId) {
             document.removeEventListener('click', closeMenu);
         }
     });
+}
+
+// Nova função para exportar o chat
+function exportChat(chatId) {
+    const chat = allChats.find(c => c.id === chatId);
+    if (!chat) return;
+
+    const chatText = chat.history.map(msg => {
+        const role = msg.role === 'user' ? 'Você' : 'Truco!';
+        return `${role}: ${msg.content}\n`;
+    }).join('\n');
+
+    const blob = new Blob([chatText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${chat.title}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 
