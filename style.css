@@ -551,7 +551,7 @@ body {
     .saved-chats-list {
         display: none;
     }
-    /* --- Estilos para a Página de Login --- */
+/* --- Estilos para a Página de Login --- */
 
 .login-page {
     background-color: var(--primary-bg);
@@ -566,42 +566,54 @@ body {
 
 .login-box {
     width: 100%;
-    max-width: 400px;
-    padding: 40px;
+    max-width: 450px; /* Largura um pouco maior */
+    padding: 50px;
     background-color: var(--secondary-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Sombra mais destacada */
     text-align: center;
-    animation: fadeIn 0.8s ease-in-out;
+    animation: fadeInScale 0.8s ease-in-out; /* Nova animação de entrada */
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .login-box h1 {
     font-family: var(--font-secondary);
     color: var(--accent-color-1);
-    font-size: 2.5rem;
+    font-size: 2.8rem; /* Fonte maior */
     margin-bottom: 5px;
 }
 
 .login-box p {
     color: var(--text-color);
-    font-size: 1rem;
-    margin-bottom: 30px;
+    font-size: 1.1rem; /* Fonte maior */
+    margin-bottom: 40px;
 }
 
 .input-group {
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 25px; /* Mais espaço entre os inputs */
 }
 
 .input-group label {
     display: block;
     margin-bottom: 8px;
     color: var(--text-color);
+    font-size: 0.95rem;
 }
 
 .input-group input {
-    width: 100%;
+    width: calc(100% - 24px); /* Ajuste para padding */
     padding: 12px;
     background-color: var(--input-bg);
     border: 1px solid var(--border-color);
@@ -609,27 +621,29 @@ body {
     border-radius: 6px;
     font-size: 1rem;
     outline: none;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .input-group input:focus {
     border-color: var(--accent-color-1);
+    box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
 }
 
 .login-box button {
     width: 100%;
-    padding: 12px;
+    padding: 14px; /* Botão um pouco maior */
     background-color: var(--accent-color-1);
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .login-box button:hover {
     background-color: #4088e8;
+    transform: translateY(-2px);
 }
 
 .error-message {
